@@ -1,9 +1,17 @@
+
+
+
 import 'package:flutter/material.dart';
+import 'package:untitled2/Add.dart';
 import 'package:untitled2/Fixed.dart';
 import 'package:untitled2/Homepage.dart';
-import 'package:untitled2/Login.dart';
+import 'package:untitled2/Log'
+    'in.dart';
 import 'package:untitled2/Login2.dart';
+
+import 'package:untitled2/Loginpos.dart';
 import 'package:untitled2/Poss.dart';
+import 'package:untitled2/Showemail.dart';
 class Logo extends StatefulWidget {
   const Logo({super.key});
 
@@ -22,7 +30,7 @@ class _LogoState extends State<Logo> {
           ),
           body: Container(
             padding: EdgeInsets.all(30),
-            child:  Column(
+            child:  ListView(
 
 
 
@@ -37,7 +45,8 @@ class _LogoState extends State<Logo> {
               Container(height: 20,),
             InkWell(
                 onTap: (){
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+                  Navigator.of(context).push
+                    (MaterialPageRoute(builder: (context){
                     return Login();
                   }));
                 },
@@ -69,7 +78,7 @@ class _LogoState extends State<Logo> {
               onTap: (){
 
                       Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                        return Poss();
+                        return Loginpos();
                       }));
               },
               child:

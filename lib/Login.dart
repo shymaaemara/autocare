@@ -7,6 +7,7 @@ import 'package:untitled2/Sighin.dart';
 
 
 class Login extends StatefulWidget {
+
   const Login({super.key});
 
   @override
@@ -52,7 +53,8 @@ padding: EdgeInsets.all(20),
                 if (val!.length<10){
 
                 return "not valid";
-                }},
+                }
+                return null;},
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.email),
                 hintText: "الايميل ",
@@ -77,6 +79,7 @@ padding: EdgeInsets.all(20),
                 if (val!.length<5){
                 return "not valid";
                 }
+                return null;
                 },
                 decoration: InputDecoration(
                 suffixIcon: Icon(Icons.remove_red_eye_outlined),
@@ -108,6 +111,9 @@ padding: EdgeInsets.all(20),
                             email: email,
                             password: password
                         );
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+                          return Homepage();
+                        }));
 
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
@@ -161,11 +167,28 @@ padding: EdgeInsets.all(20),
 
                     }
                     else{
-                      print("null");
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.warning,
+                        headerAnimationLoop: false,
+                        animType: AnimType.bottomSlide,
+                        title: 'تحزير',
+                        desc: 'No vaild.',
+                        buttonsTextStyle: const TextStyle(color: Colors.black),
+                        showCloseIcon: true,
+                        btnCancelOnPress: () {
+
+                        },
+                        btnOkOnPress: () {
+                          Navigator .of(context).pushReplacement(MaterialPageRoute(builder: (context){
+
+                            return Login();
+                          }));
+                          ;
+                        },
+                      ).show();
                     };
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
-                      return Homepage();
-                    }));
+
                   }
                   ,child: Text("تسجيل الدخول    ",style: TextStyle(fontSize: 20,color: Colors.white),)
 

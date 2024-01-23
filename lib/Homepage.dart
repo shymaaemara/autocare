@@ -3,8 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled2/Alex.dart';
+import 'package:untitled2/Anserposes.dart';
 import 'package:untitled2/Cairo.dart';
 import 'package:untitled2/Porsaied.dart';
+import 'package:untitled2/Showcost.dart';
 import 'package:untitled2/Tanta.dart';
 import 'package:untitled2/logo.dart';
 class Homepage extends StatefulWidget {
@@ -80,8 +82,27 @@ padding: EdgeInsets.all(20),
          children: [ Icon(Icons.arrow_back_ios_new,color: Colors.white,),SizedBox(width: 10,),Text("اختر المركز الاقرب اليك",style: TextStyle(fontSize: 20,color: Colors.white),)],)
 
        ),
+       Container(height: 30,),
+       MaterialButton(
+           padding: EdgeInsets.all(10),
+           shape: RoundedRectangleBorder(
 
-   ],),),
+           ),
+           color: Colors.deepOrange,
+           onPressed: ()async {
+             Cairo();
+             Navigator.of(context).push(MaterialPageRoute(builder: (context){
+               return Anserposes();
+             }));
+           }
+           ,child:Row(mainAxisAlignment: MainAxisAlignment.center,
+         children: [ SizedBox(width: 10,),Text("الرد",style: TextStyle(fontSize: 20,color: Colors.white),),Icon(Icons.arrow_forward_ios,color: Colors.white,)],)
+
+       ),
+
+
+
+     ],),),
 
     ));
   }

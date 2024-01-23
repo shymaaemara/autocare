@@ -13,23 +13,24 @@ class Anser extends StatefulWidget {
 }
 
 class _AnserState extends State<Anser> {
+  String docid=FirebaseAuth.instance.currentUser!.uid;
 
-  var cost;
+ var cost;
   GlobalKey<FormState> formstate=new GlobalKey<FormState>();
-  CollectionReference costs = FirebaseFirestore.instance.collection('costs');
+  CollectionReference cos = FirebaseFirestore.instance.collection("costs");
   addcost()async{
     if(formstate.currentState!.validate()){
 
       formstate.currentState?.save();
 
-               costs.add({
+      cos .add({
                  "cost":cost,
-                 "id":FirebaseAuth.instance.currentUser?.uid
+                 "id3":FirebaseAuth.instance.currentUser!.uid
                });
   }}
   @override
   void initState() {
-
+    addcost();
     super.initState();
   }
 
@@ -41,7 +42,9 @@ class _AnserState extends State<Anser> {
       appBar: AppBar(
         backgroundColor: Colors.orangeAccent,
       ),
-      body: Container(child: ListView(children: [
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: ListView(children: [
             Image.asset("images/6180468.png"),
         Container(height: 20,),
         Form(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -5,6 +6,7 @@ import 'package:untitled2/Fixed.dart';
 import 'package:untitled2/Homepage.dart';
 import 'package:untitled2/Sighin.dart';
 import 'package:untitled2/Sighin2.dart';
+import 'package:untitled2/talabat.dart';
 
 
 class Login2 extends StatefulWidget {
@@ -17,6 +19,10 @@ class Login2 extends StatefulWidget {
 class _Login2State extends State<Login2> {
   var password,email;
   GlobalKey<FormState> formstate=new GlobalKey<FormState>();
+  List data=[];
+
+  
+@override
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +115,9 @@ class _Login2State extends State<Login2> {
                                   email: email,
                                   password: password
                               );
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+                                return Talabat();
+                              }));
 
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'user-not-found') {
@@ -123,28 +132,12 @@ class _Login2State extends State<Login2> {
                           else{
                             print("null");
                           };
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
-                            return Fixed();
-                          }));
+
                         }
                         ,child: Text("تسجيل الدخول    ",style: TextStyle(fontSize: 20,color: Colors.white),)
 
                     ),
-                    MaterialButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)
-                        ),
-                        color: Colors.orangeAccent,
-                        onPressed: ()async {
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
 
-                            return Sighin2();
-                          }));
-
-                        }
-                        ,child: Text("قم بتسجيل حساب من هنا",style: TextStyle(fontSize: 20,color: Colors.white),)
-
-                    ),
                   ])))));
 
 

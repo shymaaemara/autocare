@@ -16,7 +16,7 @@ class _FixedState extends State<Fixed> {
 
 
   getproblem()async{
-    QuerySnapshot querysnapshot =await FirebaseFirestore.instance.collection('problems').get();
+    QuerySnapshot querysnapshot =await FirebaseFirestore.instance.collection('problems').limit(1).get();
               data.addAll(querysnapshot.docs);
               setState(() {
 
@@ -24,6 +24,7 @@ class _FixedState extends State<Fixed> {
   }
 @override
   void initState() {
+
   getproblem();
     super.initState();
   }
@@ -41,6 +42,7 @@ class _FixedState extends State<Fixed> {
    child: ListView.builder(
       itemCount:data.length ,
       itemBuilder:(context,i){
+
         return
    
           Column(children: [
