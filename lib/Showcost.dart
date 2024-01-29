@@ -20,21 +20,24 @@ class _ShowcostState extends State<Showcost> {
   List data=[];
     bool isloading=true;
     var response;
-  CollectionReference cost  =  FirebaseFirestore.instance.collection("costs");
+
+
   getcost()async{
-  response =await cost.limit(1).get();
+                             QuerySnapshot querySnapshot= await   FirebaseFirestore.instance.collection("user2").orderBy("id1",descending:true ).limit(1).get();
+                             data.addAll(querySnapshot.docs);
+                             setState(() {
 
-            Future.delayed(Duration(minutes: 15));
-           data.addAll(response.docs );
-
-            isloading=false;
-            setState(() {
-
-            });
+                             });
   }@override
+
   void initState() {
-    FirebaseAuth.instance.currentUser?.uid==null?Center(child:Text("جاري الرد") ,):
-    getcost();
+
+
+
+
+
+
+getcost();
     super.initState();
   }
   @override
@@ -45,64 +48,33 @@ class _ShowcostState extends State<Showcost> {
       appBar: AppBar(
         backgroundColor: Colors.orangeAccent,
       ),
-      body:response==null?Center(child:Text(" جاري الرد  ارجو الانتظار",style: TextStyle(fontSize: 20),))
-
-      :
+      body:
 
       Container(
         padding: EdgeInsets.all(20),
         child: ListView.builder(
         itemCount: data.length,
         itemBuilder: (context,i){
+
           return Column(children: [
              Image.asset("images/auto-mechanics-cars-checklists-203544981.webp"),
 
             Container(height: 20,),
-Container(height: 20,),
+Container(height: 40,),
           Container(
             padding: EdgeInsets.all(20),
             color: Colors.blue[300],
             child: Text("المركز تحت امرك  لقد تم تحديد موقعك وحساب التكلفه",style: TextStyle(fontSize: 20,color: Colors.white),) ,),
 
-         Container(height: 20,),
+         Container(height: 40,),
           Card(
 
             child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: [Text("التكلفه:",style: TextStyle(fontSize: 20),),Text("${data[i]['cost']} ",style: TextStyle(fontSize: 20)),],),)
+            children: [Text("التكلفه:",style: TextStyle(fontSize: 30),),Text("${data[i]['cost']} ",style: TextStyle(fontSize: 30)),],),)
          ,
             Container(height: 20,),
-          MaterialButton(
-          shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20)
-          ),
-          color: Colors.orangeAccent,
-          onPressed: ()async {
-
-            AwesomeDialog(
-              context: context,
-              dialogType: DialogType.question,
-              headerAnimationLoop: false,
-              animType: AnimType.bottomSlide,
-
-              desc: 'هل توافق علي التكلفه',
-              buttonsTextStyle: const TextStyle(color: Colors.black),
-              showCloseIcon: true,
-              btnCancelOnPress: () {
-
-              },
-              btnOkOnPress: () {
-                Navigator .of(context).pushReplacement(MaterialPageRoute(builder: (context){
-
-                  return Homepage();
-                }));
-                ;
-              },
-            ).show();
-          }
-          ,child: Text("ارسال الرد",style: TextStyle(fontSize: 20,color: Colors.white),)
-
-          ) ]);}),
+           ]);}),
           ),
     ));
   }

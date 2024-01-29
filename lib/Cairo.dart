@@ -13,7 +13,7 @@ class _CairoState extends State<Cairo> {
   List data=[];
   getdata()async{
     
-    QuerySnapshot querySnapshot= await  FirebaseFirestore.instance.collection("position").get();
+    QuerySnapshot querySnapshot= await  FirebaseFirestore.instance.collection("user1").get();
     data.addAll(querySnapshot.docs);
     setState(() {
       
@@ -35,7 +35,7 @@ class _CairoState extends State<Cairo> {
           itemCount:data.length ,
           itemBuilder: (context,i){
         return Card(
-          color: Colors.deepOrange,
+          color: Colors.deepOrangeAccent,
           child: Column(children: [
           Text("${data[i]['namepostion']}",style: TextStyle(fontSize: 20,color: Colors.white)),
           Text("${data[i]['place']}",style: TextStyle(fontSize: 20,color: Colors.white)),

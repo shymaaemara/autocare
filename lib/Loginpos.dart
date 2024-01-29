@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:untitled2/Add.dart';
 import 'package:untitled2/Cairo2.dart';
 import 'package:untitled2/Poss.dart';
+import 'package:untitled2/logo.dart';
 
 import 'Cairo.dart';
 class Loginpos extends StatefulWidget {
@@ -12,6 +13,8 @@ class Loginpos extends StatefulWidget {
 }
 
 class _LoginposState extends State<Loginpos> {
+  var password,email;
+  GlobalKey<FormState> formstate=new GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return
@@ -24,27 +27,49 @@ class _LoginposState extends State<Loginpos> {
           child: ListView(children: [
             Image.asset("images/male-worker-uniform-vector-illustration-man-wearing-protective-helmet-flat-style-person-holding-clipboard-showing-thumbsup-214007655.webp"),
             Container(height: 100,),
-          TextFormField(
-
-            decoration: InputDecoration(
-                prefixIcon: Icon(Icons.email),
-                hintText: "admin@yahoo.com",
-                filled: true,
-                fillColor: Colors.grey[100],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
+          Form(
+            autovalidateMode: AutovalidateMode.always,
+            key: formstate,
+            child: Column(
+              children: [
+                TextFormField(
 
 
-                )
+
+                  validator: (val){
+                    if (val!.length<10){
+                      return "not valid";
+                    }
+                  },
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.email),
+                      hintText: "الايميل",
+                      filled: true,
+                      fillColor: Colors.grey[100],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
+
+
+                      )
+                  ),
+                ),
+              ],
             ),
           ),
           Container(height: 20,),
           TextFormField(
 
+            obscureText: true,
+
+            validator: (val){
+              if (val!.length<5){
+                return "not valid";
+              }
+            },
             decoration: InputDecoration(
                 suffixIcon:  Icon(Icons.remove_red_eye_outlined),
                 prefixIcon: Icon(Icons.lock),
-                hintText: "1234567890",
+                hintText: "كلمه المرور ",
                 filled: true,
                 fillColor: Colors.grey[100],
                 border: OutlineInputBorder(
@@ -61,15 +86,34 @@ class _LoginposState extends State<Loginpos> {
                 ),
                 color: Colors.orangeAccent,
                 onPressed: ()async {
+    if(formstate.currentState!.validate()){
+
+
                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
 
                     return Add();
                   }));
 
-                }
+                }}
                 ,child: Text("تسجيل الدخول",style: TextStyle(fontSize: 20,color: Colors.white),)
 
             ),
+            Container(height: 20,),
+            MaterialButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)
+                ),
+
+                onPressed: ()async {
+
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+                    return Logo ();
+                  }));
+
+
+                }
+                ,child: Text("عوده",style: TextStyle(fontSize: 20,color: Colors.black),)
+            )
         ],),),
         ));
   }

@@ -1,3 +1,6 @@
+import 'dart:core';
+import 'dart:core';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +10,7 @@ import 'package:untitled2/Cairo.dart';
 import 'package:untitled2/Cairo2.dart';
 import 'package:untitled2/Homepage.dart';
 import 'package:untitled2/Showemail.dart';
+import 'package:untitled2/logo.dart';
 class Poss extends StatefulWidget {
   const Poss({super.key});
 
@@ -15,20 +19,22 @@ class Poss extends StatefulWidget {
 }
 
 class _PossState extends State<Poss> {
-  var nameposition,place,phone,email,password;
+  var nameposition,place,email,password ,phone;
+
   GlobalKey<FormState> formstate=new GlobalKey<FormState>();
-  addposition()async{
+  CollectionReference    user1   =  FirebaseFirestore.instance.collection("user1");
+  addposition(){
     if(formstate.currentState!.validate()){
 
       formstate.currentState?.save();
-                    CollectionReference    pos   =  await FirebaseFirestore.instance.collection("position");
-                    pos.add({
+
+      user1 .add({
                       "namepostion":nameposition,
                       "place":place,
                       "phone":phone,
                       "email":email,
                       "password":password
-                      ,"id1":FirebaseAuth.instance.currentUser?.uid
+
                     });
 
   }}
@@ -38,9 +44,28 @@ class _PossState extends State<Poss> {
           email: email,
           password: password,
         );
-        Navigator.of(context).push(MaterialPageRoute(builder: (context){
-          return Cairo2();
-        }));
+
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.success,
+          headerAnimationLoop: false,
+          animType: AnimType.bottomSlide,
+
+          desc: 'لقد تم اضافه البيانات بنجاح',
+          buttonsTextStyle: const TextStyle(color: Colors.black),
+          showCloseIcon: true,
+          btnCancelOnPress: () {
+
+          },
+          btnOkOnPress: () {
+            Navigator .of(context).pushReplacement(MaterialPageRoute(builder: (context){
+
+              return Poss();
+            }));
+            ;
+          },
+        ).show();
+
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           AwesomeDialog(
@@ -97,6 +122,7 @@ class _PossState extends State<Poss> {
       Directionality(textDirection: TextDirection.rtl, child:
       Scaffold(
       appBar: AppBar(
+
         backgroundColor: Colors.orangeAccent,
       ),
       body: Container(
@@ -116,7 +142,7 @@ class _PossState extends State<Poss> {
                   }
                   ,
                   validator: (val){
-                    if (val?.length=={""}){
+                    if (val!.length<5){
 
                       return "not valid";
                     }},
@@ -140,7 +166,7 @@ class _PossState extends State<Poss> {
                   }
                   ,
                   validator: (val){
-                    if (val?.length=={""}){
+                    if (val!.length<5){
 
                       return "not valid";
                     }},
@@ -160,13 +186,19 @@ class _PossState extends State<Poss> {
                 TextFormField(
                   onSaved: (val){
                     phone=val;
+
                   }
                   ,
                   validator: (val){
                     if (val!.length<11){
 
                       return "not valid";
-                    }},
+                    }
+                    if(val.characters==true){
+                      return "not valid";
+                    }
+
+                    },
                   decoration: InputDecoration(
                       prefixIcon: Icon(Icons.phone),
                       hintText: " الهاتف   ",
@@ -186,10 +218,15 @@ class _PossState extends State<Poss> {
                   }
                   ,
                   validator: (val){
-                    if (val!.length<10){
+                    if (val!.length<10&&val.isEmpty){
 
                       return "not valid";
-                    }},
+                    }
+
+                    return null;
+
+
+                      },
                   decoration: InputDecoration(
                       prefixIcon: Icon(Icons.email),
                       hintText: " الايميل  ",
@@ -237,15 +274,32 @@ class _PossState extends State<Poss> {
               ),
               color: Colors.orangeAccent,
               onPressed: ()async {
-                greatemail();
-            addposition();
 
-
+                if(formstate.currentState!.validate()) {
+                  formstate.currentState?.save();
+                  greatemail();
+                  addposition();
+                };
               }
               ,child: Text("اضافه",style: TextStyle(fontSize: 20,color: Colors.white),)
 
           ),
-        ],
+        MaterialButton(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)
+          ),
+
+          onPressed: ()async {
+
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+              return Add ();
+            }));
+
+
+          }
+          ,child: Text("عوده",style: TextStyle(fontSize: 20,color: Colors.black),)
+        )
+          ],
       ),
         ),
     ));

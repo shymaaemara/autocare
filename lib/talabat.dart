@@ -1,5 +1,9 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled2/Namedriver.dart';
+
+import 'logo.dart';
 class Talabat extends StatefulWidget {
   const Talabat({super.key});
 
@@ -13,7 +17,33 @@ class _TalabatState extends State<Talabat> {
     return
     Directionality(textDirection: TextDirection.rtl, child:
         Scaffold(
-          appBar: AppBar(backgroundColor: Colors.orangeAccent,),
+          appBar: AppBar(backgroundColor: Colors.orangeAccent, leading: InkWell(
+            onTap: (){
+
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.warning,
+                headerAnimationLoop: false,
+                animType: AnimType.bottomSlide,
+                title: 'تحزير',
+                desc: 'هل تريد الخروج من التطبيق',
+                buttonsTextStyle: const TextStyle(color: Colors.black),
+                showCloseIcon: true,
+                btnCancelOnPress: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+                    return Talabat();
+                  }));
+                },
+                btnOkOnPress: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+                    return Logo();
+                  }));
+                },
+              ).show();
+            },
+            child: Icon(Icons.exit_to_app,color: Colors.white,),) ,
+          ),
           body:Container(
             padding: EdgeInsets.all(20),
             child: ListView(children: [

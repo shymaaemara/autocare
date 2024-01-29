@@ -10,7 +10,8 @@ import 'package:untitled2/Showcost.dart';
 import 'package:untitled2/Tanta.dart';
 import 'package:untitled2/logo.dart';
 class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+
+  const Homepage({super.key, });
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -41,7 +42,7 @@ class _HomepageState extends State<Homepage> {
               },
               btnOkOnPress: () {
                 FirebaseAuth.instance.signOut();
-                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
                   return Logo();
                 }));
               },

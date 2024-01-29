@@ -14,16 +14,28 @@ class Anserposes extends StatefulWidget {
 class _AnserposesState extends State<Anserposes> {
   
   bool isloading=true;
- 
+  List data=[];
 
-    CollectionReference col =  FirebaseFirestore.instance.collection(
-        "position");
 
+      getnamepostion()async{
+                   QuerySnapshot querySnapshot   = await  FirebaseFirestore.instance.collection(
+  "user2").orderBy("id1",descending: true).limit(1).get();
+                   isloading=false;
+                   setState(() {
+
+                   });
+        data.addAll(querySnapshot.docs) ;
+        setState(() {
+
+        });
+      }
     
 
   @override
   void initState() {
+    Future.delayed(Duration(seconds: 10)).then((value) =>
 
+    getnamepostion());
    // getname();
     super.initState();
   }
@@ -36,67 +48,72 @@ class _AnserposesState extends State<Anserposes> {
             backgroundColor: Colors.orangeAccent ,
           ),
 
-          body:Container(
+          body:
+isloading==true?Center(child: Text("جاري الرد ارجو الانتظار",style: TextStyle(fontSize: 20,color: Colors.black))):
+
+          Container(
             padding: EdgeInsets.all(10),
-            child: StreamBuilder(stream: col.snapshots(),
-            builder: (context,snapshot){
-              if(snapshot.hasError){
-                return Text("error");
-              }
-              if(snapshot.connectionState==ConnectionState.waiting){
-                return Center(child: Container(
-                  padding: EdgeInsets.all(100),
-                  color: Colors.orangeAccent,
-                    
-                    child: Text("جاري الرد",style: TextStyle(fontSize: 30),)));
-              }
-            
-              if(snapshot.hasData){
-                return ListView.builder(
-                    itemCount:1 ,
+           child:
+                ListView.builder(
+                    itemCount:data.length,
                     itemBuilder: (context,i){
                       return
-                   Container(
-                     color: Colors.deepOrange,
-                     padding: EdgeInsets.all(100),
-                     child: Column(
+                   Column(
+                     children: [
+                       Container(
+                         decoration: BoxDecoration(
+                           borderRadius: BorderRadius.circular(30),
+                   color: Colors.deepOrangeAccent
+                   ),
+                         
+                         padding: EdgeInsets.all(20),
+                         child: Column(
 
-                       children: [
-                              Text(" مركز الصيانه ",style: TextStyle(fontSize: 30,color: Colors.black)),
+                           children: [
+                                  Text("   لقد تم ارسال طلب العطل الي مركز ",style: TextStyle(fontSize: 20,color: Colors.black)),
 
-               Container(height: 20,),
 
-                                Text("${snapshot.data?.docs[i]['namepostion']}",style: TextStyle(fontSize: 20,color: Colors.white),),
-                         Container(height: 20,),
-                         MaterialButton(
-                             shape: RoundedRectangleBorder(
-                                 borderRadius: BorderRadius.circular(20)
-                             ),
-                             color: Colors.orangeAccent,
-                             onPressed: ()async {
-                               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
-            
-                                 return Showcost();
-                               }));
-            
-                             }
-                             ,child: Text("الرد",style: TextStyle(fontSize: 20,color: Colors.black),))
-            
-                       ],
-                     ),
+
+                                    Text("${data[i]['namepostion']}",style: TextStyle(fontSize: 20,color: Colors.white),),
+                             Container(height: 10,),
+                             Text("  وللاستعلام عن الرد اضغط الزر الاتي ",style: TextStyle(fontSize: 20,color: Colors.black)),
+                             Container(height: 10,),
+                             MaterialButton(
+                                 shape: RoundedRectangleBorder(
+                                     borderRadius: BorderRadius.circular(20)
+                                 ),
+                                 color: Colors.orangeAccent,
+                                 onPressed: ()async {
+                                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+
+                                     return Showcost();
+                                   }));
+
+                                 }
+                                 ,child: Text("الرد",style: TextStyle(fontSize: 20,color: Colors.black),)),
+
+                           ],
+                         ),
+                       ),
+                       Container(
+                         color: Colors.white,
+                         height: 20,)
+
+                     ],
+
                    );
-                });
-              }
-              return Text("loading");
-            }
-            
-            ),
-          )
-              
-              
-              
-              
+                })
 
-        ));
+
+
+
+
+
+
+
+
+
+
+    ))  );
   }
 }

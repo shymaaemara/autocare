@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'package:untitled2/Homepage.dart';
 import 'package:untitled2/Sighin.dart';
 import 'package:untitled2/Sighin2.dart';
 import 'package:untitled2/talabat.dart';
+
+import 'logo.dart';
 
 
 class Login2 extends StatefulWidget {
@@ -37,7 +40,7 @@ class _Login2State extends State<Login2> {
               padding: EdgeInsets.all(20),
               child: Center(
                   child: ListView(children: [Form(
-
+ autovalidateMode: AutovalidateMode.always,
                     key: formstate,
                     child:
                     Column(
@@ -51,6 +54,7 @@ class _Login2State extends State<Login2> {
                             child: Image.asset("images/320473119616.jpg",height: 200,width:380,fit: BoxFit.fill,)),
                         Container(height: 50,),
                         TextFormField(
+
                           onSaved: (val){
                             email=val;
                           }
@@ -59,7 +63,8 @@ class _Login2State extends State<Login2> {
                             if (val!.length<10){
 
                               return "not valid";
-                            }},
+                            }
+                            },
                           decoration: InputDecoration(
                               prefixIcon: Icon(Icons.email),
                               hintText: "الايميل",
@@ -76,6 +81,7 @@ class _Login2State extends State<Login2> {
 
 
                         TextFormField(
+
                             obscureText: true,
                             onSaved: (val){
                               password=val;
@@ -121,8 +127,49 @@ class _Login2State extends State<Login2> {
 
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'user-not-found') {
+                                AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType.warning,
+                                  headerAnimationLoop: false,
+                                  animType: AnimType.bottomSlide,
+                                  title: 'تحزير',
+                                  desc: 'No user found for that email.',
+                                  buttonsTextStyle: const TextStyle(color: Colors.black),
+                                  showCloseIcon: true,
+                                  btnCancelOnPress: () {
+
+                                  },
+                                  btnOkOnPress: () {
+                                    Navigator .of(context).pushReplacement(MaterialPageRoute(builder: (context){
+
+                                      return Login2();
+                                    }));
+                                    ;
+                                  },
+                                ).show();
                                 print('No user found for that email.');
                               } else if (e.code == 'wrong-password') {
+                                AwesomeDialog(
+                                    context: context,
+                                    dialogType: DialogType.warning,
+                                    headerAnimationLoop: false,
+                                    animType: AnimType.bottomSlide,
+                                    title: 'تحزير',
+                                    desc: 'Wrong password provided for that user.',
+                                    buttonsTextStyle: const TextStyle(color: Colors.black),
+                                    showCloseIcon: true,
+                                    btnCancelOnPress: () {
+
+                                    },
+                                    btnOkOnPress: () {
+                                      Navigator .of(context).pushReplacement(MaterialPageRoute(builder: (context){
+
+                                        return Login2();
+                                      }));
+                                    }
+
+                                ).show();
+
                                 print('Wrong password provided for that user.');
                               }
                             }
@@ -130,14 +177,32 @@ class _Login2State extends State<Login2> {
 
                           }
                           else{
-                            print("null");
-                          };
+                            AwesomeDialog(
+                              context: context,
+                              dialogType: DialogType.warning,
+                              headerAnimationLoop: false,
+                              animType: AnimType.bottomSlide,
+                              title: 'تحزير',
+                              desc: ' ب        لا يمكن ان يكون الايميل فارغ او غير صالح    ',
+                              buttonsTextStyle: const TextStyle(color: Colors.black),
+                              showCloseIcon: true,
+                              btnCancelOnPress: () {
 
+                              },
+                              btnOkOnPress: () {
+                                Navigator .of(context).pushReplacement(MaterialPageRoute(builder: (context){
+
+                                  return Login2();
+                                }));
+                                ;
+                              },
+                            ).show();
+                          };
                         }
                         ,child: Text("تسجيل الدخول    ",style: TextStyle(fontSize: 20,color: Colors.white),)
 
                     ),
-
+                  Container(height: 20,),
                   ])))));
 
 

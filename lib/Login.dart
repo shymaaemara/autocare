@@ -5,6 +5,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:untitled2/Homepage.dart';
 import 'package:untitled2/Sighin.dart';
 
+import 'logo.dart';
+
 
 class Login extends StatefulWidget {
 
@@ -31,7 +33,7 @@ class _LoginState extends State<Login> {
 padding: EdgeInsets.all(20),
           child: Center(
             child: ListView(children: [Form(
-
+autovalidateMode: AutovalidateMode.always,
                 key: formstate,
                 child:
                 Column(
@@ -50,7 +52,7 @@ padding: EdgeInsets.all(20),
                 }
                 ,
                 validator: (val){
-                if (val!.length<10){
+                if (val!.length<12){
 
                 return "not valid";
                 }
@@ -173,7 +175,7 @@ padding: EdgeInsets.all(20),
                         headerAnimationLoop: false,
                         animType: AnimType.bottomSlide,
                         title: 'تحزير',
-                        desc: 'No vaild.',
+                        desc: ' ب        لا يمكن ان يكون الايميل فارغ او غير صالح    ',
                         buttonsTextStyle: const TextStyle(color: Colors.black),
                         showCloseIcon: true,
                         btnCancelOnPress: () {
@@ -208,7 +210,8 @@ padding: EdgeInsets.all(20),
                   ,child: Text("قم بتسجيل حساب من هنا",style: TextStyle(fontSize: 20,color: Colors.white),)
 
               ),
-          ])))));
+              Container(height: 20,),
+             ])))));
 
 
 

@@ -1,6 +1,11 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled2/Cairo.dart';
+import 'package:untitled2/Cairo2.dart';
 import 'package:untitled2/Poss.dart';
+
+import 'logo.dart';
 class Add extends StatefulWidget {
   const Add({super.key});
 
@@ -14,7 +19,33 @@ class _AddState extends State<Add> {
     return
     Directionality(textDirection: TextDirection.rtl, child:
         Scaffold(appBar: AppBar(
+          leading: InkWell(
+            onTap: (){
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.warning,
+                headerAnimationLoop: false,
+                animType: AnimType.bottomSlide,
+                title: 'تحزير',
+                desc: 'هل تريد الخروج من التطبيق',
+                buttonsTextStyle: const TextStyle(color: Colors.black),
+                showCloseIcon: true,
+                btnCancelOnPress: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                    return Poss();
+                  }));
+                },
+                btnOkOnPress: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+                    return Logo();
+                  }));
+                },
+              ).show();
+            },
+            child: Icon(Icons.exit_to_app,color: Colors.white,),) ,
           backgroundColor: Colors.orangeAccent,
+
         ),
           body: Container(child: ListView(children: [
             Container(height: 30,),
@@ -28,7 +59,7 @@ class _AddState extends State<Add> {
                 ),
                 color: Colors.deepOrange,
                 onPressed: ()async {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
                     return Poss();
                   }));
                 }
@@ -45,7 +76,7 @@ borderRadius: BorderRadius.circular(20),
                 onPressed: ()async {
 
                   Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                    return Cairo ();
+                    return Cairo2 ();
                   }));
                 }
                 ,child:

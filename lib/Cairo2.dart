@@ -14,7 +14,7 @@ class _Cairo2State extends State<Cairo2> {
   List data=[];
   getdata()async{
 
-    QuerySnapshot querySnapshot= await  FirebaseFirestore.instance.collection("position").get();
+    QuerySnapshot querySnapshot= await  FirebaseFirestore.instance.collection("user1").get();
     data.addAll(querySnapshot.docs);
     setState(() {
 
@@ -30,7 +30,7 @@ class _Cairo2State extends State<Cairo2> {
     return
       Directionality(textDirection: TextDirection.rtl, child:
       Scaffold(appBar: AppBar(
-      backgroundColor: Colors.orangeAccent,
+      backgroundColor: Colors.deepOrangeAccent,
     ),
       body: Container(child: ListView.builder(
           itemCount:data.length ,
@@ -38,9 +38,34 @@ class _Cairo2State extends State<Cairo2> {
             return Card(
               color: Colors.deepOrange,
               child: Column(children: [
-                Text("${data[i]['namepostion']}",style: TextStyle(fontSize: 20,color: Colors.white)),
-                Text("${data[i]['place']}",style: TextStyle(fontSize: 20,color: Colors.white)),
-                Text("${data[i]['phone']}",style: TextStyle(fontSize: 20,color: Colors.white)),
+
+                    Text("${data[i]['namepostion']}",style: TextStyle(fontSize: 20,color: Colors.white)
+
+                ),
+                Row(
+                  children: [
+                    Text("المكان",style: TextStyle(fontSize: 20,color: Colors.black)),
+                    Text("      ${data[i]['place']}",style: TextStyle(fontSize: 20,color: Colors.white)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(" رقم الهاتف:",style: TextStyle(fontSize: 20,color: Colors.black)),
+                    Text("     ${data[i]['phone']}",style: TextStyle(fontSize: 20,color: Colors.white)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("  الايميل:",style: TextStyle(fontSize: 20,color: Colors.black)),
+                    Text(" ${data[i]['email']}",style: TextStyle(fontSize: 20,color: Colors.white)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(" كلمه المرور:",style: TextStyle(fontSize: 20,color: Colors.black)),
+                    Text("${data[i]['password']}",style: TextStyle(fontSize: 20,color: Colors.white)),
+                  ],
+                ),
                 MaterialButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)

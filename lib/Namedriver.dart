@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled2/Fixed.dart';
 class Namedriver extends StatefulWidget {
@@ -11,10 +12,12 @@ class Namedriver extends StatefulWidget {
 class _NamedriverState extends State<Namedriver> {
   List data=[];
   bool isloading=true;
+
   getname()async {
+
     QuerySnapshot querySnapshot1 = await FirebaseFirestore.instance.collection(
-        "problems").limit(1).get();
-    Future.delayed(Duration(seconds: 15));
+        "user3").orderBy("id",descending: true).limit(1).get();
+    Future.delayed(Duration(minutes: 15));
     data.addAll(querySnapshot1.docs);
 
     isloading = false;
@@ -24,7 +27,8 @@ class _NamedriverState extends State<Namedriver> {
   }
   @override
   void initState() {
-    getname();
+    Future.delayed(Duration(seconds: 5)).then((value) =>
+    getname());
     super.initState();
   }
   @override
@@ -35,8 +39,10 @@ class _NamedriverState extends State<Namedriver> {
       appBar: AppBar(
         backgroundColor: Colors.orangeAccent,
       ),
-      body: Container(
-        padding: EdgeInsets.all(10),
+      body:
+      isloading==true?Center(child: CircularProgressIndicator(),):
+      Container(
+        padding: EdgeInsets.all(5),
         child: ListView.builder(
           itemCount: data.length,
           itemBuilder: (context,i){
@@ -49,16 +55,23 @@ class _NamedriverState extends State<Namedriver> {
           child: Column(
             children: [
               Container(
-                color: Colors.deepOrange,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.deepOrangeAccent
+                ),
+
                       padding: EdgeInsets.all(80),
                 child: Column(
                   children: [
                     Text("التاريخ:"
-                        "     ${data[i]['history']}",style: TextStyle(fontSize: 20,color: Colors.black),),
+                        "     ${data[i]['history']}",style: TextStyle(fontSize: 20,color: Colors.white),),
+                    Container(height: 20,),
 
-                    Text("اسم السائق:"
-                        "     :${data[i]['namedriver']}",style: TextStyle(fontSize: 20,color: Colors.black),),
-                  ],
+                    Center(
+                      child: Text("لديك طلب  جديد"
+                          "     ",style: TextStyle(fontSize: 20,color: Colors.yellow)
+                    ),
+                ) ],
                 ),),
               Container(height: 20,)
             ],

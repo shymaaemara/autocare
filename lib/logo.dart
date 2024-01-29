@@ -77,7 +77,7 @@ class _LogoState extends State<Logo> {
           InkWell(
               onTap: (){
 
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
                         return Loginpos();
                       }));
               },
