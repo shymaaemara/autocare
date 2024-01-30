@@ -47,11 +47,13 @@ class _AddState extends State<Add> {
           backgroundColor: Colors.orangeAccent,
 
         ),
-          body: Container(child: ListView(children: [
+          body: Container(
+            padding: EdgeInsets.all(10),
+            child: ListView(children: [
             Container(height: 30,),
             Image.asset("images/male-worker-uniform-vector-illustration-man-wearing-protective-helmet-flat-style-person-holding-clipboard-showing-thumbsup-214007655.webp"),
 
-            Container(height: 50,),
+            Container(height: 100,),
             MaterialButton(
                 padding: EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(

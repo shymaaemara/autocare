@@ -23,7 +23,7 @@ class _Login2State extends State<Login2> {
   var password,email;
   GlobalKey<FormState> formstate=new GlobalKey<FormState>();
   List data=[];
-
+bool showpassword=false;
   
 @override
 
@@ -82,7 +82,7 @@ class _Login2State extends State<Login2> {
 
                         TextFormField(
 
-                            obscureText: true,
+                            obscureText: !showpassword,
                             onSaved: (val){
                               password=val;
                             },
@@ -92,7 +92,13 @@ class _Login2State extends State<Login2> {
                               }
                             },
                             decoration: InputDecoration(
-                                suffixIcon: Icon(Icons.remove_red_eye_outlined),
+                                suffixIcon: IconButton(onPressed: (){
+                                  setState(() {
+                                    showpassword=!showpassword;
+                                  });
+                                }, icon: Icon(
+                                  showpassword?Icons.visibility:Icons.visibility_off
+                                )),
                                 prefixIcon: Icon(Icons.lock)
                                 ,
                                 hintText: "كلمه المرور ",
@@ -126,27 +132,28 @@ class _Login2State extends State<Login2> {
                               }));
 
                             } on FirebaseAuthException catch (e) {
+                              AwesomeDialog(
+                                context: context,
+                                dialogType: DialogType.warning,
+                                headerAnimationLoop: false,
+                                animType: AnimType.bottomSlide,
+                                title: 'تحزير',
+                                desc: 'الايميل غير موجود',
+                                buttonsTextStyle: const TextStyle(color: Colors.black),
+                                showCloseIcon: true,
+                                btnCancelOnPress: () {
+
+                                },
+                                btnOkOnPress: () {
+                                  Navigator .of(context).pushReplacement(MaterialPageRoute(builder: (context){
+
+                                    return Login2();
+                                  }));
+                                  ;
+                                },
+                              ).show();
                               if (e.code == 'user-not-found') {
-                                AwesomeDialog(
-                                  context: context,
-                                  dialogType: DialogType.warning,
-                                  headerAnimationLoop: false,
-                                  animType: AnimType.bottomSlide,
-                                  title: 'تحزير',
-                                  desc: 'No user found for that email.',
-                                  buttonsTextStyle: const TextStyle(color: Colors.black),
-                                  showCloseIcon: true,
-                                  btnCancelOnPress: () {
 
-                                  },
-                                  btnOkOnPress: () {
-                                    Navigator .of(context).pushReplacement(MaterialPageRoute(builder: (context){
-
-                                      return Login2();
-                                    }));
-                                    ;
-                                  },
-                                ).show();
                                 print('No user found for that email.');
                               } else if (e.code == 'wrong-password') {
                                 AwesomeDialog(

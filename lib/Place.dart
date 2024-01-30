@@ -29,8 +29,8 @@ class _PlaceState extends State<Place> {
 
       "place":place,
       "problem":problem,
-"history":history,
-"namedriver":namedriver,
+     "history":history,
+      "namedriver":namedriver,
       "id":FirebaseAuth.instance.currentUser?.uid,
 
 

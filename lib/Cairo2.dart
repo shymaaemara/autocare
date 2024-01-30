@@ -85,7 +85,7 @@ class _Cairo2State extends State<Cairo2> {
 
                         },
                         btnOkOnPress: () async{
-                          await   FirebaseFirestore.instance.collection("position").doc(data[i].id).delete();
+                          await   FirebaseFirestore.instance.collection("user1").doc(data[i].id).delete();
                           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
                             return Cairo2();
                           }));

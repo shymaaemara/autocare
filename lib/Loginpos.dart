@@ -15,6 +15,7 @@ class Loginpos extends StatefulWidget {
 class _LoginposState extends State<Loginpos> {
   var password,email;
   GlobalKey<FormState> formstate=new GlobalKey<FormState>();
+  bool showpassword=false;
   @override
   Widget build(BuildContext context) {
     return
@@ -59,7 +60,7 @@ class _LoginposState extends State<Loginpos> {
           Container(height: 20,),
           TextFormField(
 
-            obscureText: true,
+            obscureText:!showpassword,
 
             validator: (val){
               if (val!.length<5){
@@ -67,7 +68,13 @@ class _LoginposState extends State<Loginpos> {
               }
             },
             decoration: InputDecoration(
-                suffixIcon:  Icon(Icons.remove_red_eye_outlined),
+                suffixIcon:  IconButton(onPressed: (){
+                  setState(() {
+                    showpassword=!showpassword;
+                  });
+                }, icon: Icon(
+                    showpassword?Icons.visibility:Icons.visibility_off
+                )),
                 prefixIcon: Icon(Icons.lock),
                 hintText: "كلمه المرور ",
                 filled: true,

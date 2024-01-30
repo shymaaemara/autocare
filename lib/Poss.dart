@@ -23,6 +23,7 @@ class _PossState extends State<Poss> {
 
   GlobalKey<FormState> formstate=new GlobalKey<FormState>();
   CollectionReference    user1   =  FirebaseFirestore.instance.collection("user1");
+  bool showpassword=false;
   addposition(){
     if(formstate.currentState!.validate()){
 
@@ -40,7 +41,60 @@ class _PossState extends State<Poss> {
   }}
     greatemail()async{
       try {
-        final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        final
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
@@ -67,53 +121,55 @@ class _PossState extends State<Poss> {
         ).show();
 
       } on FirebaseAuthException catch (e) {
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.warning,
+          headerAnimationLoop: false,
+          animType: AnimType.bottomSlide,
+          title: 'تحزير',
+          desc: 'الايميل موجود بالفعل',
+          buttonsTextStyle: const TextStyle(color: Colors.black),
+          showCloseIcon: true,
+          btnCancelOnPress: () {
+
+          },
+          btnOkOnPress: () {
+            Navigator .of(context).pushReplacement(MaterialPageRoute(builder: (context){
+
+              return Poss();
+            }));
+            ;
+          },
+        ).show();
         if (e.code == 'weak-password') {
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.warning,
-            headerAnimationLoop: false,
-            animType: AnimType.bottomSlide,
-            title: 'تحزير',
-            desc: 'The password provided is too weak',
-            buttonsTextStyle: const TextStyle(color: Colors.black),
-            showCloseIcon: true,
-            btnCancelOnPress: () {
 
-            },
-            btnOkOnPress: () {
-              Navigator .of(context).pushReplacement(MaterialPageRoute(builder: (context){
-
-                return Poss();
-              }));
-              ;
-            },
-          ).show();
           print('The password provided is too weak.');
         } else if (e.code == 'email-already-in-use') {
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.warning,
-            headerAnimationLoop: false,
-            animType: AnimType.bottomSlide,
-            title: 'تحزير',
-            desc: 'The account already exists for that email.',
-            buttonsTextStyle: const TextStyle(color: Colors.black),
-            showCloseIcon: true,
-            btnCancelOnPress: () {
 
-            },
-            btnOkOnPress: () {
-              Navigator .of(context).pushReplacement(MaterialPageRoute(builder: (context){
-
-                return Poss();
-              }));
-              ;
-            },
-          ).show();
           print('The account already exists for that email.');
         }
       } catch (e) {
-        print(e);
+        AwesomeDialog(
+          context: context,
+
+          dialogType: DialogType.warning,
+          headerAnimationLoop: false,
+          animType: AnimType.bottomSlide,
+          title: 'تحزير',
+          desc: 'كلمه المرور ضعيفه .',
+          buttonsTextStyle: const TextStyle(color: Colors.black),
+          showCloseIcon: true,
+          btnCancelOnPress: () {
+
+          },
+          btnOkOnPress: () {
+            Navigator .of(context).pushReplacement(MaterialPageRoute(builder: (context){
+
+              return Poss();
+            }));
+            ;
+          },
+        ).show();;
       }
     }
   @override
@@ -241,6 +297,7 @@ class _PossState extends State<Poss> {
                 ),
                 Container(height:20 ,),
                 TextFormField(
+                  obscureText: !showpassword,
                   onSaved: (val){
                     password=val;
                   }
@@ -251,6 +308,17 @@ class _PossState extends State<Poss> {
                       return "not valid";
                     }},
                   decoration: InputDecoration(
+                    suffixIcon:  IconButton(
+                      icon: Icon(
+                          showpassword?
+                          Icons.visibility:
+                          Icons.visibility_off
+                      ), onPressed: () {
+                      setState(() {
+                        showpassword=!showpassword;
+                      });
+                    },
+                    ),
                       prefixIcon: Icon(Icons.place),
                       hintText: " كلمه المرور  ",
                       filled: true,

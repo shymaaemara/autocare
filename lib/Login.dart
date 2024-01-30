@@ -19,7 +19,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   var password,email;
   GlobalKey<FormState> formstate=new GlobalKey<FormState>();
-
+ bool showpassword=false;
   @override
   Widget build(BuildContext context) {
     return
@@ -73,7 +73,7 @@ autovalidateMode: AutovalidateMode.always,
 
 
                 TextFormField(
-                obscureText: true,
+                obscureText: !showpassword,
                 onSaved: (val){
                 password=val;
                 },
@@ -84,7 +84,21 @@ autovalidateMode: AutovalidateMode.always,
                 return null;
                 },
                 decoration: InputDecoration(
-                suffixIcon: Icon(Icons.remove_red_eye_outlined),
+                suffixIcon:
+
+
+                   IconButton(
+                     icon: Icon(
+                     showpassword?
+                         Icons.visibility:
+                         Icons.visibility_off
+                        ), onPressed: () {
+                       setState(() {
+                         showpassword=!showpassword;
+                       });
+                   },
+                   ),
+
               prefixIcon: Icon(Icons.lock)
                     ,
                 hintText: "كلمه المرور ",
@@ -118,27 +132,28 @@ autovalidateMode: AutovalidateMode.always,
                         }));
 
                       } on FirebaseAuthException catch (e) {
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.warning,
+                          headerAnimationLoop: false,
+                          animType: AnimType.bottomSlide,
+                          title: 'تحزير',
+                          desc: " الايميل غير موجود",
+                          buttonsTextStyle: const TextStyle(color: Colors.black),
+                          showCloseIcon: true,
+                          btnCancelOnPress: () {
+
+                          },
+                          btnOkOnPress: () {
+                            Navigator .of(context).pushReplacement(MaterialPageRoute(builder: (context){
+
+                              return Login();
+                            }));
+                            ;
+                          },
+                        ).show();
                         if (e.code == 'user-not-found') {
-                          AwesomeDialog(
-                            context: context,
-                            dialogType: DialogType.warning,
-                            headerAnimationLoop: false,
-                            animType: AnimType.bottomSlide,
-                            title: 'تحزير',
-                            desc: 'No user found for that email.',
-                            buttonsTextStyle: const TextStyle(color: Colors.black),
-                            showCloseIcon: true,
-                            btnCancelOnPress: () {
 
-                            },
-                            btnOkOnPress: () {
-                             Navigator .of(context).pushReplacement(MaterialPageRoute(builder: (context){
-
-                                return Login();
-                              }));
-                             ;
-                            },
-                          ).show();
                           print('No user found for that email.');
                         } else if (e.code == 'wrong-password') {
                           AwesomeDialog(
@@ -147,7 +162,7 @@ autovalidateMode: AutovalidateMode.always,
                             headerAnimationLoop: false,
                             animType: AnimType.bottomSlide,
                             title: 'تحزير',
-                            desc: 'Wrong password provided for that user.',
+                            desc: 'كلمه المرور غير صحيحه',
                             buttonsTextStyle: const TextStyle(color: Colors.black),
                             showCloseIcon: true,
                             btnCancelOnPress: () {

@@ -23,10 +23,9 @@ class _ShowcostState extends State<Showcost> {
 
 
   getcost()async{
-                             QuerySnapshot querySnapshot= await   FirebaseFirestore.instance.collection("user2").orderBy("id1",descending:true ).limit(1).get();
+                             QuerySnapshot querySnapshot= await   FirebaseFirestore.instance.collection("user2").orderBy("id1",descending: true).limit(1).get();
                              data.addAll(querySnapshot.docs);
                              setState(() {
-
                              });
   }@override
 

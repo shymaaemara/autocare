@@ -12,6 +12,7 @@ class Sighin2 extends StatefulWidget {
 
 class _Sigh2inState extends State<Sighin2> {
   var username,phone,email,password;
+  bool showpassword=false;
   GlobalKey<FormState> formstate=new GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -98,7 +99,7 @@ class _Sigh2inState extends State<Sighin2> {
                     ),),
                   Container(height: 20,),
                   TextFormField(
-                    obscureText: true,
+                    obscureText: !showpassword,
                     onSaved: (val){
 
                       password=val;
@@ -111,7 +112,17 @@ class _Sigh2inState extends State<Sighin2> {
                       return null;
                     },
                     decoration: InputDecoration(
-                        suffixIcon:  Icon(Icons.remove_red_eye_outlined),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                              showpassword?
+                              Icons.visibility:
+                              Icons.visibility_off
+                          ), onPressed: () {
+                          setState(() {
+                            showpassword=!showpassword;
+                          });
+                        },
+                        ),
                         prefixIcon: Icon(Icons.lock),
                         hintText: "كلمه السر",
                         filled: true,

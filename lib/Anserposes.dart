@@ -19,7 +19,7 @@ class _AnserposesState extends State<Anserposes> {
 
       getnamepostion()async{
                    QuerySnapshot querySnapshot   = await  FirebaseFirestore.instance.collection(
-  "user2").orderBy("id1",descending: true).limit(1).get();
+  "user2").orderBy("id1",descending:true).limit(1).get();
                    isloading=false;
                    setState(() {
 
